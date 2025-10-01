@@ -1,0 +1,120 @@
+Q1:
+
+import math
+
+# Function to check prime
+def is_prime(n):
+    if n < 2:
+        return False
+    for i in range(2, int(math.sqrt(n)) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+# Generate primes < 100
+primes = [p for p in range(2, 100) if is_prime(p)]
+n = len(primes)
+
+# Find minimal square size that fits all primes
+size = math.ceil(math.sqrt(n))
+
+# Create empty matrix
+spiral = [[0] * size for _ in range(size)]
+
+# Fill matrix in spiral order
+top, bottom, left, right = 0, size - 1, 0, size - 1
+idx = 0
+
+while top <= bottom and left <= right and idx < n:
+    for i in range(left, right + 1):
+        if idx < n:
+            spiral[top][i] = primes[idx]; idx += 1
+    top += 1
+    for i in range(top, bottom + 1):
+        if idx < n:
+            spiral[i][right] = primes[idx]; idx += 1
+    right -= 1
+    for i in range(right, left - 1, -1):
+        if idx < n:
+            spiral[bottom][i] = primes[idx]; idx += 1
+    bottom -= 1
+    for i in range(bottom, top - 1, -1):
+        if idx < n:
+            spiral[i][left] = primes[idx]; idx += 1
+    left += 1
+
+# Print spiral
+print("Q1) Prime Numbers Spiral (<100):")
+for row in spiral:
+    print(" ".join(f"{x:2d}" if x != 0 else "  " for x in row))
+
+
+output:
+Prime Numbers Spiral (<100):
+ 2  3  5  7 11
+53 59 61 67 13
+47 89 97 71 17
+43 83 79 73 19
+41 37 31 29 23
+
+
+
+
+Q2:
+
+print("\nQ2) Hourly Views Graph:")
+hourly_views = [12, 33, 56, 5, 44, 25, 10, 60]  # example input
+
+for hour, views in enumerate(hourly_views):
+    stars = "*" * (views // 5)
+    print(f"Hour {hour:02d}: {stars}")
+
+Output:
+ Hourly Views Graph:
+Hour 00: **
+Hour 01: ******
+Hour 02: ***********
+Hour 03: *
+Hour 04: ********
+Hour 05: *****
+Hour 06: **
+Hour 07: ************
+
+
+
+
+Q3:
+
+def revenue_for_views(views):
+    revenue = 0.0
+    if views <= 10:
+        revenue = views * 0.50
+    elif views <= 30:
+        revenue = 10 * 0.50 + (views - 10) * 0.30
+    else:
+        revenue = 10 * 0.50 + 20 * 0.30 + (views - 30) * 0.10
+    return revenue
+
+print("\nQ3) Daily Revenue Calculation:")
+total_revenue = 0.0
+for hour, views in enumerate(hourly_views):
+    rev = revenue_for_views(views)
+    total_revenue += rev
+    print(f"Hour {hour:02d}: {views} views -> ${rev:.2f}")
+
+print(f"\nTotal Daily Revenue = ${total_revenue:.2f}")
+
+Output:
+
+Daily Revenue Calculation:
+Hour 00: 12 views -> $5.60
+Hour 01: 33 views -> $11.30
+Hour 02: 56 views -> $13.60
+Hour 03: 5 views -> $2.50
+Hour 04: 44 views -> $12.40
+Hour 05: 25 views -> $9.50
+Hour 06: 10 views -> $5.00
+Hour 07: 60 views -> $14.00
+
+Total Daily Revenue = $73.90
+
