@@ -1,0 +1,110 @@
+Q1 Student – Course – Department
+
+class Student:
+    def __init__(self, name):
+        self.name = name
+        self.courses = []
+
+    def enroll(self, course):
+        self.courses.append(course)
+        print(f"{self.name} enrolled in {course.name} ({course.department.name})")
+
+class Course:
+    def __init__(self, name, department):
+        self.name = name
+        self.department = department
+
+class Department:
+    def __init__(self, name):
+        self.name = name
+
+d1 = Department("Computer Science")
+c1 = Course("Python Programming", d1)
+
+s1 = Student("Nikhil")
+s1.enroll(c1)
+
+OUTPUT:
+    Nikhil enrolled in Python Programming (Computer Science)
+
+
+Q2: Bill payment using inheritance
+
+class Bill:
+    def __init__(self, amount):
+        self.amount = amount
+
+    def pay(self):
+        pass
+
+class CashPayment(Bill):
+    def pay(self):
+        print(f"Bill of ₹{self.amount} paid by CASH")
+
+class ChequePayment(Bill):
+    def __init__(self, amount, cheque_no):
+        super().__init__(amount)
+        self.cheque_no = cheque_no
+
+    def pay(self):
+        print(f"Bill of ₹{self.amount} paid by CHEQUE (Cheque No: {self.cheque_no})")
+
+b1 = CashPayment(1500)
+b1.pay()
+
+b2 = ChequePayment(3000, "CHQ12345")
+b2.pay()
+
+OUTPUT:
+Bill of ₹1500 paid by CASH
+Bill of ₹3000 paid by CHEQUE (Cheque No: CHQ12345)
+
+Q3: Overload -= to subtract Distance objects
+
+class Distance:
+    def __init__(self, meters):
+        self.meters = meters
+
+    def __isub__(self, other):   # -= operator
+        self.meters -= other.meters
+        return self
+
+    def __str__(self):
+        return f"{self.meters} meters"
+
+d1 = Distance(150)
+d2 = Distance(40)
+
+print("Before subtraction:", d1)
+d1 -= d2
+print("After subtraction:", d1)
+
+OUTPUT:
+Before subtraction: 150 meters
+After subtraction: 110 meters
+
+Q4: Two distance classes - meters and kilometers
+
+class MeterDistance:
+    def __init__(self, meters):
+        self.meters = meters
+
+    def to_km(self):
+        return self.meters / 1000
+
+class KilometerDistance:
+    def __init__(self, km):
+        self.km = km
+
+    def to_meters(self):
+        return self.km * 1000
+
+m = MeterDistance(2500)
+k = KilometerDistance(3)
+
+print("2500 meters in km =", m.to_km(), "km")
+print("3 km in meters =", k.to_meters(), "meters")
+
+OUTPUT:
+2500 meters in km = 2.5 km
+3 km in meters = 3000 meters
